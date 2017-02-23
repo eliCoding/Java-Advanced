@@ -1,0 +1,13 @@
+Java 3 - Class 01 notes
+
+In Netbeans create project RandArray.
+
+Declare an array of integers 3 (rows) by 4 (columns).
+Fill it in with random integers from 1-100 (inclusive).
+Display the array in 3 lines, with values comma-separated.
+
+EXTRA:
+* Ask user how many rows and columns to allocate.
+* Ask user for minimum and maximum values to randomly generate.
+
+
