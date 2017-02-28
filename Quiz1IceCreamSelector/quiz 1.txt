@@ -1,0 +1,25 @@
+Quiz 1
+
+Create project Quiz1IceCreamSelector
+
+Create GUI following instructions on the whiteboard.
+
+File->Load Flavours ...
+File->Save Orders as ...
+File->Exit
+
+"Place order" button must be grayed out (disabled) until flavours are loaded.
+
+File->Exit and window closing event check if any unsaved orders have been placed. 
+If yes, then program must ask user to save orders in file with extension *.ord using save-as dialog.
+
+Load flavours will read a .flav file containing list of 4 flavours one per line and display it as text of 4 flavour buttons.
+Assume the file has the 4 required lines.
+
+File->save orders as will save one order per line, same as displayed in orders placed text area box.
+
+Your submission:
+ZIP file of the entire project
+
+
+
