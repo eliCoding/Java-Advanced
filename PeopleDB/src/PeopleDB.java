@@ -1,7 +1,9 @@
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 /*
@@ -17,23 +19,21 @@ public class PeopleDB extends javax.swing.JFrame {
 
     Database db;
 
-    /**
-     * Creates new form PeopleDB
-     */
+    DefaultListModel<Person> modelPersonList = new DefaultListModel<>();
+    
     public PeopleDB() {
         try {
             db = new Database();
             initComponents();
+            refreshPersonList();
         } catch (SQLException ex) {
-            //custom title, error icon
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this,
-                    "failed to open database.",
-                    "Data base error",
+                    "Failed to open database connection",
+                    "Database error",
                     JOptionPane.ERROR_MESSAGE);
             System.exit(1);
         }
-
     }
 
     /**
@@ -45,88 +45,117 @@ public class PeopleDB extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblName = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         tfName = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
         tfAge = new javax.swing.JTextField();
-        lblAge = new javax.swing.JLabel();
-        btnAddperson = new javax.swing.JButton();
-        btnlstAll = new javax.swing.JButton();
+        btAddPerson = new javax.swing.JButton();
+        btRefreshList = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        lstPersonList = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        lblName.setText("Name");
+        jLabel1.setText("Name:");
 
-        lblAge.setText("Age");
+        jLabel2.setText("Age:");
 
-        btnAddperson.setText("Add Person");
-        btnAddperson.addActionListener(new java.awt.event.ActionListener() {
+        btAddPerson.setText("Add person");
+        btAddPerson.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddpersonActionPerformed(evt);
+                btAddPersonActionPerformed(evt);
             }
         });
 
-        btnlstAll.setText("List All");
-        btnlstAll.addActionListener(new java.awt.event.ActionListener() {
+        btRefreshList.setText("Refresh list");
+        btRefreshList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnlstAllActionPerformed(evt);
+                btRefreshListActionPerformed(evt);
             }
         });
+
+        lstPersonList.setModel(modelPersonList);
+        jScrollPane1.setViewportView(lstPersonList);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfName, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(98, 98, 98)
-                .addComponent(lblAge)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(tfAge, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
-                .addComponent(btnAddperson)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 113, Short.MAX_VALUE)
-                .addComponent(btnlstAll)
-                .addContainerGap())
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfName, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfAge, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btAddPerson)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
+                        .addComponent(btRefreshList)
+                        .addGap(26, 26, 26))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblName)
+                    .addComponent(jLabel1)
                     .addComponent(tfName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblAge)
+                    .addComponent(jLabel2)
                     .addComponent(tfAge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAddperson)
-                    .addComponent(btnlstAll))
-                .addContainerGap(339, Short.MAX_VALUE))
+                    .addComponent(btAddPerson)
+                    .addComponent(btRefreshList))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAddpersonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddpersonActionPerformed
+    private void btAddPersonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddPersonActionPerformed
         String name = tfName.getText();
         int age = Integer.parseInt(tfAge.getText());
-
-        try {
+        try {            
             db.addPerson(name, age);
+            refreshPersonList();
+            tfName.setText("");
+            tfAge.setText("");
         } catch (SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this,
-                    "failed Execute database query .",
-                    "Data base error",
+                    "Failed execute database query",
+                    "Database error",
                     JOptionPane.ERROR_MESSAGE);
-
         }
-    }//GEN-LAST:event_btnAddpersonActionPerformed
+    }//GEN-LAST:event_btAddPersonActionPerformed
 
-    private void btnlstAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlstAllActionPerformed
-
-    }//GEN-LAST:event_btnlstAllActionPerformed
+    private void refreshPersonList() {
+        try {
+            ArrayList<Person> personList = db.getAllPersons();            
+            modelPersonList.clear();
+            for (Person p : personList) {
+                modelPersonList.addElement(p);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                    "Failed execute database query",
+                    "Database error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void btRefreshListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRefreshListActionPerformed
+        
+    }//GEN-LAST:event_btRefreshListActionPerformed
 
     /**
      * @param args the command line arguments
@@ -164,10 +193,12 @@ public class PeopleDB extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAddperson;
-    private javax.swing.JButton btnlstAll;
-    private javax.swing.JLabel lblAge;
-    private javax.swing.JLabel lblName;
+    private javax.swing.JButton btAddPerson;
+    private javax.swing.JButton btRefreshList;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JList<Person> lstPersonList;
     private javax.swing.JTextField tfAge;
     private javax.swing.JTextField tfName;
     // End of variables declaration//GEN-END:variables
